@@ -37,9 +37,9 @@ const ContentBox = ({ children }) => (
     marginX={-4}
     marginTop={4}
     padding={4}
-    border="1px solid hsla(197, 12%, 70%, 0.3)"
+    // border="1px solid hsla(197, 12%, 70%, 0.3)"
     borderRadius="5px"
-    // boxShadow="0 1px 4px rgba(0,0,0,0.3)"
+    boxShadow="0 1px 20px rgba(0,0,0,0.1)"
   >
     {children}
   </Box>
