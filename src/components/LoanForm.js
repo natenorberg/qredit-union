@@ -1,7 +1,13 @@
 import React, { useState } from "react"
 import styled from "@emotion/styled"
 import { css } from "@emotion/core"
-import { Box, Flex, Spacer, SpaceChildren } from "../components/layoutHelpers"
+import {
+  Box,
+  Flex,
+  Spacer,
+  SpaceChildren,
+  Text,
+} from "../components/layoutHelpers"
 import TextField from "@material-ui/core/TextField"
 import Button from "@material-ui/core/Button"
 import InputAdornment from "@material-ui/core/InputAdornment"
@@ -9,6 +15,8 @@ import InputLabel from "@material-ui/core/InputLabel"
 import MenuItem from "@material-ui/core/MenuItem"
 import FormControl from "@material-ui/core/FormControl"
 import Select from "@material-ui/core/Select"
+import CircularProgress from "@material-ui/core/CircularProgress"
+import CheckCircleRounded from "@material-ui/icons/CheckCircleRounded"
 
 const useTextField = (initialValue = "") => {
   const [value, setValue] = useState(initialValue)
@@ -23,38 +31,80 @@ const useTextField = (initialValue = "") => {
   return [value, handlers]
 }
 
+const ContentBox = ({ children }) => (
+  <Box
+    backgroundColor="#fff"
+    marginX={-4}
+    marginTop={4}
+    padding={4}
+    border="1px solid hsla(197, 12%, 70%, 0.3)"
+    borderRadius="5px"
+    // boxShadow="0 1px 4px rgba(0,0,0,0.3)"
+  >
+    {children}
+  </Box>
+)
+
 const Instructions = styled.h3`
   color: rgba(0, 0, 0, 0.5);
   font-weight: normal;
   letter-spacing: -0.5px;
 `
 
+const ErrorHelpText = styled.p`
+  font-size: 24px;
+  line-height: 1.5;
+  margin-bottom: 0;
+`
+
 const LoanForm = () => {
   const [step, setStep] = useState(0)
 
+  // Step 1 fields
   const [firstName, firstNameFieldProps] = useTextField()
   const [lastName, lastNameFieldProps] = useTextField()
   const [phoneNumber, phoneNumberFieldProps] = useTextField()
+
+  // Step 2 fields
   const [loanAmount, loanAmountFieldProps] = useTextField()
   const [loanAmountFieldFocused, setLoanAmountFieldFocused] = useState(false)
   const [loanTerm, setLoanTerm] = useState(null)
-  const [submitCount, setSubmitCount] = useState(0)
+
+  // Submit results
+  const [submitting, setSubmitting] = useState(false)
+  const [showError, setShowError] = useState(false)
+  const [showSuccess, setShowSuccess] = useState(false)
+
+  if (showSuccess) {
+    return (
+      <ContentBox>
+        <Text fontSize="2rem">
+          <Flex>
+            <CheckCircleRounded
+              fontSize="inherit"
+              color="primary"
+              style={{ fontSize: "2.25rem", marginRight: "0.5rem" }}
+            />
+            <h1
+              css={css`
+                margin-bottom: 0;
+              `}
+            >
+              Congratulations! You're approved!
+            </h1>
+          </Flex>
+        </Text>
+      </ContentBox>
+    )
+  }
 
   return (
-    <Box
-      backgroundColor="#fff"
-      marginX={-4}
-      marginTop={4}
-      padding={4}
-      border="1px solid hsla(197, 12%, 70%, 0.3)"
-      borderRadius="5px"
-      // boxShadow="0 1px 4px rgba(0,0,0,0.3)"
-    >
+    <ContentBox>
       {step === 0 && (
         <>
           <h1>Loan Application</h1>
           <Instructions>Let's start with some basic questions</Instructions>
-          <form noValidate autoComplete="off">
+          <form noValidate autoComplete="nope">
             <SpaceChildren marginBottom={4}>
               <Flex>
                 <Box flex="1 1 auto">
@@ -63,6 +113,7 @@ const LoanForm = () => {
                     variant="filled"
                     color="secondary"
                     fullWidth
+                    autoComplete="nope"
                     {...firstNameFieldProps}
                   />
                 </Box>
@@ -73,6 +124,7 @@ const LoanForm = () => {
                     variant="filled"
                     color="secondary"
                     fullWidth
+                    autoComplete="nope"
                     {...lastNameFieldProps}
                   />
                 </Box>
@@ -84,6 +136,7 @@ const LoanForm = () => {
                     color="secondary"
                     fullWidth
                     type="phone"
+                    autoComplete="nope"
                     {...phoneNumberFieldProps}
                   />
                 </Box>
@@ -109,7 +162,7 @@ const LoanForm = () => {
           <Instructions>
             Please give us some info about what kind of loan you need
           </Instructions>
-          <form noValidate autoComplete="off">
+          <form noValidate autoComplete="nope">
             <SpaceChildren marginBottom={4}>
               <Flex>
                 <Box flex="1 1 50%">
@@ -152,6 +205,22 @@ const LoanForm = () => {
                   </FormControl>
                 </Box>
               </Flex>
+              {showError && (
+                <Box
+                  backgroundColor="hsl(0, 52%, 75%)"
+                  color="hsl(0, 52%, 25%)"
+                  padding={3}
+                  borderRadius="5px"
+                >
+                  <h2>Well this is embarrassing...</h2>
+                  <ErrorHelpText>
+                    Something went wrong processing your application.
+                  </ErrorHelpText>
+                  <ErrorHelpText>
+                    Please contact customer support for assistance
+                  </ErrorHelpText>
+                </Box>
+              )}
               <Flex justifyContent="space-between">
                 <Button variant="outlined" onClick={() => setStep(step - 1)}>
                   Back
@@ -161,16 +230,33 @@ const LoanForm = () => {
                   color="primary"
                   size="large"
                   disabled={!loanAmount || !loanTerm}
-                  onClick={() => setSubmitCount(submitCount + 1)}
+                  onClick={() => {
+                    setSubmitting(true)
+                    if (!showError) {
+                      setTimeout(() => {
+                        setShowError(true)
+                        setSubmitting(false)
+                      }, 2000)
+                    } else if (!showSuccess) {
+                      setTimeout(() => {
+                        setShowError(false)
+                        setShowSuccess(true)
+                      }, 1000)
+                    }
+                  }}
                 >
-                  Submit
+                  {submitting ? (
+                    <CircularProgress size={29} color="#fff" />
+                  ) : (
+                    "Submit"
+                  )}
                 </Button>
               </Flex>
             </SpaceChildren>
           </form>
         </>
       )}
-    </Box>
+    </ContentBox>
   )
 }
 
