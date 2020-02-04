@@ -7,7 +7,7 @@ html {
 }
 body {
   margin: 0;
-  background: hsl(197, 12%, 97%);
+  background: #f8f9fa;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }

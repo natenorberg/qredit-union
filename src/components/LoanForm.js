@@ -37,9 +37,9 @@ const ContentBox = ({ children }) => (
     marginX={-4}
     marginTop={4}
     padding={4}
-    border="1px solid hsla(197, 12%, 70%, 0.3)"
+    // border="1px solid hsla(197, 12%, 70%, 0.3)"
     borderRadius="5px"
-    // boxShadow="0 1px 4px rgba(0,0,0,0.3)"
+    boxShadow="0 1px 20px rgba(0,0,0,0.1)"
   >
     {children}
   </Box>
@@ -82,8 +82,11 @@ const LoanForm = () => {
           <Flex>
             <CheckCircleRounded
               fontSize="inherit"
-              color="primary"
-              style={{ fontSize: "2.25rem", marginRight: "0.5rem" }}
+              style={{
+                fontSize: "2.25rem",
+                marginRight: "0.5rem",
+                color: "#279E68",
+              }}
             />
             <h1
               css={css`
@@ -111,7 +114,7 @@ const LoanForm = () => {
                   <TextField
                     label="First Name"
                     variant="filled"
-                    color="secondary"
+                    color="primary"
                     fullWidth
                     autoComplete="nope"
                     {...firstNameFieldProps}
@@ -122,7 +125,7 @@ const LoanForm = () => {
                   <TextField
                     label="Last Name"
                     variant="filled"
-                    color="secondary"
+                    color="primary"
                     fullWidth
                     autoComplete="nope"
                     {...lastNameFieldProps}
@@ -133,7 +136,7 @@ const LoanForm = () => {
                   <TextField
                     label="Phone number"
                     variant="filled"
-                    color="secondary"
+                    color="primary"
                     fullWidth
                     type="phone"
                     autoComplete="nope"
@@ -169,7 +172,7 @@ const LoanForm = () => {
                   <TextField
                     label="Loan Amount"
                     variant="filled"
-                    color="secondary"
+                    color="primary"
                     fullWidth
                     type="number"
                     {...loanAmountFieldProps}
@@ -187,7 +190,7 @@ const LoanForm = () => {
                 </Box>
                 <Spacer marginRight={4} />
                 <Box flex="1 1 50%">
-                  <FormControl variant="filled" color="secondary" fullWidth>
+                  <FormControl variant="filled" color="primary" fullWidth>
                     <InputLabel id="loan-term-label">Loan Term</InputLabel>
                     <Select
                       labelId="loan-term-label"

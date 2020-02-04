@@ -10,13 +10,12 @@ import PropTypes from "prop-types"
 import { useStaticQuery, graphql } from "gatsby"
 import { createMuiTheme } from "@material-ui/core/styles"
 import { ThemeProvider } from "@material-ui/styles"
-import lightBlue from "@material-ui/core/colors/lightBlue"
 import Header from "./header"
 import "./layout.css"
 
 const theme = createMuiTheme({
   palette: {
-    primary: { main: "#279E68" },
+    primary: { main: "#5c2997" },
     secondary: { main: "#4b8ab0" },
   },
   typography: {
