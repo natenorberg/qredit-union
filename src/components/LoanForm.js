@@ -17,6 +17,7 @@ import FormControl from "@material-ui/core/FormControl"
 import Select from "@material-ui/core/Select"
 import CircularProgress from "@material-ui/core/CircularProgress"
 import CheckCircleRounded from "@material-ui/icons/CheckCircleRounded"
+import WebChat from "./WebChat"
 
 const useTextField = (initialValue = "") => {
   const [value, setValue] = useState(initialValue)
@@ -91,34 +92,28 @@ const LoanForm = () => {
   const [showError, setShowError] = useState(false)
   const [showSuccess, setShowSuccess] = useState(false)
 
-  if (showSuccess) {
-    return (
-      <ContentBox>
-        <Text fontSize="2rem">
-          <Flex>
-            <CheckCircleRounded
-              fontSize="inherit"
-              style={{
-                fontSize: "2.25rem",
-                marginRight: "0.5rem",
-                color: "#279E68",
-              }}
-            />
-            <h1
-              css={css`
-                margin-bottom: 0;
-              `}
-            >
-              Congratulations! You're approved!
-            </h1>
-          </Flex>
-        </Text>
-      </ContentBox>
-    )
-  }
-
-  return (
-    <ContentBox>
+  const content = showSuccess ? (
+    <Text fontSize="2rem">
+      <Flex>
+        <CheckCircleRounded
+          fontSize="inherit"
+          style={{
+            fontSize: "2.25rem",
+            marginRight: "0.5rem",
+            color: "#279E68",
+          }}
+        />
+        <h1
+          css={css`
+            margin-bottom: 0;
+          `}
+        >
+          Congratulations! You're approved!
+        </h1>
+      </Flex>
+    </Text>
+  ) : (
+    <>
       {step === 0 && (
         <>
           <h1>Loan Application</h1>
@@ -275,6 +270,17 @@ const LoanForm = () => {
           </form>
         </>
       )}
+    </>
+  )
+
+  return (
+    <ContentBox>
+      {content}
+      <WebChat
+        firstName={firstName}
+        lastName={lastName}
+        phoneNumber={phoneNumber}
+      />
     </ContentBox>
   )
 }
