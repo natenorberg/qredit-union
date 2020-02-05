@@ -17,6 +17,7 @@ import FormControl from "@material-ui/core/FormControl"
 import Select from "@material-ui/core/Select"
 import CircularProgress from "@material-ui/core/CircularProgress"
 import CheckCircleRounded from "@material-ui/icons/CheckCircleRounded"
+import useWindowSize from "./useWindowSize"
 
 const useTextField = (initialValue = "") => {
   const [value, setValue] = useState(initialValue)
@@ -31,19 +32,23 @@ const useTextField = (initialValue = "") => {
   return [value, handlers]
 }
 
-const ContentBox = ({ children }) => (
-  <Box
-    backgroundColor="#fff"
-    marginX={-4}
-    marginTop={4}
-    padding={4}
-    // border="1px solid hsla(197, 12%, 70%, 0.3)"
-    borderRadius="5px"
-    boxShadow="0 1px 20px rgba(0,0,0,0.1)"
-  >
-    {children}
-  </Box>
-)
+const ContentBox = ({ children }) => {
+  const { width } = useWindowSize()
+
+  return (
+    <Box
+      backgroundColor="#fff"
+      marginX={-4}
+      marginTop={width > 768 ? 4 : 0}
+      padding={4}
+      // border="1px solid hsla(197, 12%, 70%, 0.3)"
+      borderRadius="5px"
+      boxShadow="0 1px 20px rgba(0,0,0,0.1)"
+    >
+      {children}
+    </Box>
+  )
+}
 
 const Instructions = styled.h3`
   color: rgba(0, 0, 0, 0.5);
@@ -74,6 +79,8 @@ const LoanForm = () => {
   const [submitting, setSubmitting] = useState(false)
   const [showError, setShowError] = useState(false)
   const [showSuccess, setShowSuccess] = useState(false)
+
+  const { width } = useWindowSize()
 
   if (showSuccess) {
     return (
@@ -109,8 +116,8 @@ const LoanForm = () => {
           <Instructions>Let's start with some basic questions</Instructions>
           <form noValidate autoComplete="nope">
             <SpaceChildren marginBottom={4}>
-              <Flex>
-                <Box flex="1 1 auto">
+              <Flex flexDirection={width > 768 ? "row" : "column"}>
+                <Box flex="1 0 auto" marginBottom={3}>
                   <TextField
                     label="First Name"
                     variant="filled"
@@ -121,7 +128,7 @@ const LoanForm = () => {
                   />
                 </Box>
                 <Spacer marginRight={4} />
-                <Box flex="1 1 auto">
+                <Box flex="1 0 auto" marginBottom={3}>
                   <TextField
                     label="Last Name"
                     variant="filled"
@@ -132,7 +139,7 @@ const LoanForm = () => {
                   />
                 </Box>
                 <Spacer marginRight={4} />
-                <Box flex="1 1 auto">
+                <Box flex="1 0 auto" marginBottom={3}>
                   <TextField
                     label="Phone number"
                     variant="filled"
