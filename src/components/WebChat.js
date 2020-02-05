@@ -1,17 +1,9 @@
 import { useEffect } from "react"
 
-// eslint-disable-next-line
-var chat = Quiq({
-  contactPoint: "main",
-  colors: {
-    primary: "#5c2997",
-  },
-})
+let chat
 
 const useCustomerField = (fieldId, value) => {
   useEffect(() => {
-    console.log("setting", fieldId, "to", value)
-
     chat.setChatRegistrationField(
       `schema.conversation.customer.${fieldId}`,
       value
@@ -20,6 +12,15 @@ const useCustomerField = (fieldId, value) => {
 }
 
 const WebChat = ({ firstName, lastName, phoneNumber }) => {
+  useEffect(() => {
+    chat = window.Quiq({
+      contactPoint: "main",
+      colors: {
+        primary: "#5c2997",
+      },
+    })
+  }, [])
+
   useCustomerField("firstName", firstName)
   useCustomerField("lastName", lastName)
   useCustomerField("phoneNumber", phoneNumber)
