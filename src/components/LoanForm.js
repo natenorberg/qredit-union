@@ -17,7 +17,6 @@ import FormControl from "@material-ui/core/FormControl"
 import Select from "@material-ui/core/Select"
 import CircularProgress from "@material-ui/core/CircularProgress"
 import CheckCircleRounded from "@material-ui/icons/CheckCircleRounded"
-import useWindowSize from "./useWindowSize"
 
 const useTextField = (initialValue = "") => {
   const [value, setValue] = useState(initialValue)
@@ -32,21 +31,33 @@ const useTextField = (initialValue = "") => {
   return [value, handlers]
 }
 
-const ContentBox = ({ children }) => {
-  const { width } = useWindowSize()
+const ResponsiveContentBox = styled(Box)`
+  margin-top: 32px;
 
+  @media screen and (max-width: 768px) {
+    margin-top: 0;
+  }
+`
+
+const FieldContainer = styled(Flex)`
+  flex-direction: row;
+
+  @media screen and (max-width: 768px) {
+    flex-direction: column;
+  }
+`
+
+const ContentBox = ({ children }) => {
   return (
-    <Box
+    <ResponsiveContentBox
       backgroundColor="#fff"
       marginX={-4}
-      marginTop={width > 768 ? 4 : 0}
       padding={4}
-      // border="1px solid hsla(197, 12%, 70%, 0.3)"
       borderRadius="5px"
       boxShadow="0 1px 20px rgba(0,0,0,0.1)"
     >
       {children}
-    </Box>
+    </ResponsiveContentBox>
   )
 }
 
@@ -79,8 +90,6 @@ const LoanForm = () => {
   const [submitting, setSubmitting] = useState(false)
   const [showError, setShowError] = useState(false)
   const [showSuccess, setShowSuccess] = useState(false)
-
-  const { width } = useWindowSize()
 
   if (showSuccess) {
     return (
@@ -116,7 +125,7 @@ const LoanForm = () => {
           <Instructions>Let's start with some basic questions</Instructions>
           <form noValidate autoComplete="nope">
             <SpaceChildren marginBottom={4}>
-              <Flex flexDirection={width > 768 ? "row" : "column"}>
+              <FieldContainer>
                 <Box flex="1 0 auto" marginBottom={3}>
                   <TextField
                     label="First Name"
@@ -150,7 +159,7 @@ const LoanForm = () => {
                     {...phoneNumberFieldProps}
                   />
                 </Box>
-              </Flex>
+              </FieldContainer>
               <Flex justifyContent="flex-end">
                 <Button
                   variant="contained"
@@ -174,8 +183,8 @@ const LoanForm = () => {
           </Instructions>
           <form noValidate autoComplete="nope">
             <SpaceChildren marginBottom={4}>
-              <Flex>
-                <Box flex="1 1 50%">
+              <FieldContainer>
+                <Box flex="1 1 50%" marginBottom={3}>
                   <TextField
                     label="Loan Amount"
                     variant="filled"
@@ -196,7 +205,7 @@ const LoanForm = () => {
                   />
                 </Box>
                 <Spacer marginRight={4} />
-                <Box flex="1 1 50%">
+                <Box flex="1 1 50%" marginBottom={3}>
                   <FormControl variant="filled" color="primary" fullWidth>
                     <InputLabel id="loan-term-label">Loan Term</InputLabel>
                     <Select
@@ -214,7 +223,7 @@ const LoanForm = () => {
                     </Select>
                   </FormControl>
                 </Box>
-              </Flex>
+              </FieldContainer>
               {showError && (
                 <Box
                   backgroundColor="hsl(0, 52%, 75%)"
