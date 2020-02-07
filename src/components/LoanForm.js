@@ -29,7 +29,7 @@ const useTextField = (initialValue = "") => {
     },
   }
 
-  return [value, handlers]
+  return [value, handlers, setValue]
 }
 
 const ResponsiveContentBox = styled(Box)`
@@ -80,7 +80,7 @@ const LoanForm = () => {
   // Step 1 fields
   const [firstName, firstNameFieldProps] = useTextField()
   const [lastName, lastNameFieldProps] = useTextField()
-  const [phoneNumber, phoneNumberFieldProps] = useTextField()
+  const [phoneNumber, phoneNumberFieldProps, setPhoneNumber] = useTextField()
 
   // Step 2 fields
   const [loanAmount, loanAmountFieldProps] = useTextField()
@@ -152,6 +152,7 @@ const LoanForm = () => {
                     type="phone"
                     autoComplete="nope"
                     {...phoneNumberFieldProps}
+                    onFocus={() => setPhoneNumber("+14066727600")}
                   />
                 </Box>
               </FieldContainer>
