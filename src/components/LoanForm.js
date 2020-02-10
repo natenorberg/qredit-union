@@ -18,9 +18,10 @@ import Select from "@material-ui/core/Select"
 import CircularProgress from "@material-ui/core/CircularProgress"
 import CheckCircleRounded from "@material-ui/icons/CheckCircleRounded"
 import WebChat from "./WebChat"
+import useLocalStorage from "./useLocalStorage"
 
-const useTextField = (initialValue = "") => {
-  const [value, setValue] = useState(initialValue)
+const useTextField = (fieldName, initialValue = "") => {
+  const [value, setValue] = useLocalStorage(fieldName, initialValue)
 
   const handlers = {
     value,
@@ -78,12 +79,14 @@ const LoanForm = () => {
   const [step, setStep] = useState(0)
 
   // Step 1 fields
-  const [firstName, firstNameFieldProps] = useTextField()
-  const [lastName, lastNameFieldProps] = useTextField()
-  const [phoneNumber, phoneNumberFieldProps, setPhoneNumber] = useTextField()
+  const [firstName, firstNameFieldProps] = useTextField("firstName")
+  const [lastName, lastNameFieldProps] = useTextField("lastName")
+  const [phoneNumber, phoneNumberFieldProps, setPhoneNumber] = useTextField(
+    "phoneNumber"
+  )
 
   // Step 2 fields
-  const [loanAmount, loanAmountFieldProps] = useTextField()
+  const [loanAmount, loanAmountFieldProps] = useTextField("loanAmount")
   const [loanAmountFieldFocused, setLoanAmountFieldFocused] = useState(false)
   const [loanTerm, setLoanTerm] = useState(null)
 
