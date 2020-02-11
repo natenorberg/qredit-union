@@ -2,16 +2,16 @@ import { useEffect } from "react"
 
 let chat
 
-const useCustomerField = (fieldId, value) => {
+const useCustomerField = (fieldId, value, submittedTime) => {
   useEffect(() => {
     chat.setChatRegistrationField(
       `schema.conversation.customer.${fieldId}`,
       value
     )
-  }, [value, fieldId])
+  }, [value, fieldId, submittedTime])
 }
 
-const WebChat = ({ firstName, lastName, phoneNumber }) => {
+const WebChat = ({ firstName, lastName, phoneNumber, submittedTime }) => {
   useEffect(() => {
     chat = window.Quiq({
       contactPoint: "main",
@@ -21,9 +21,9 @@ const WebChat = ({ firstName, lastName, phoneNumber }) => {
     })
   }, [])
 
-  useCustomerField("firstName", firstName)
-  useCustomerField("lastName", lastName)
-  useCustomerField("phoneNumber", phoneNumber)
+  useCustomerField("firstName", firstName, submittedTime)
+  useCustomerField("lastName", lastName, submittedTime)
+  useCustomerField("phoneNumber", phoneNumber, submittedTime)
 
   return null
 }

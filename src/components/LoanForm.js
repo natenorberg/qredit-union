@@ -95,6 +95,9 @@ const LoanForm = () => {
   const [showError, setShowError] = useState(false)
   const [showSuccess, setShowSuccess] = useState(false)
 
+  // Hack to force chat sync
+  const [submittedTime, setSubmittedTime] = useState()
+
   const content = showSuccess ? (
     <Text fontSize="2rem">
       <Flex>
@@ -249,6 +252,7 @@ const LoanForm = () => {
                   size="large"
                   disabled={!loanAmount || !loanTerm}
                   onClick={() => {
+                    setSubmittedTime(Date.now())
                     setSubmitting(true)
                     if (!showError) {
                       setTimeout(() => {
@@ -284,6 +288,7 @@ const LoanForm = () => {
         firstName={firstName}
         lastName={lastName}
         phoneNumber={phoneNumber}
+        submittedTime={submittedTime}
       />
     </ContentBox>
   )
