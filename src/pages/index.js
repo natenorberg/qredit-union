@@ -7,7 +7,7 @@ import LoanForm from "../components/LoanForm"
 const IndexPage = () => (
   <Layout>
     <SEO title="Loan Application" />
-    <LoanForm />
+    {typeof window === "undefined" ? null : <LoanForm />}
   </Layout>
 )
 
