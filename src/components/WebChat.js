@@ -29,6 +29,14 @@ const WebChat = ({ firstName, lastName, phoneNumber, submittedTime }) => {
         colors: {
           primary: "#5c2997",
         },
+        styles: {
+          InitialMessageContainer: {
+            display: "none",
+          },
+          AgentDisplayName: {
+            display: "none",
+          },
+        },
       })
       setChatLoaded(true)
     }
