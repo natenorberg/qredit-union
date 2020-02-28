@@ -11,10 +11,6 @@ export default function HTML(props) {
           name="viewport"
           content="width=device-width, initial-scale=1, shrink-to-fit=no"
         />
-        <script
-          src="https://sfdc1-demo.quiq-api.com/app/webchat/index.js"
-          charSet="UTF-8"
-        ></script>
         {props.headComponents}
       </head>
       <body {...props.bodyAttributes}>

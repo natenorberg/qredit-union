@@ -1,29 +1,44 @@
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
+import queryString from "query-string"
 
 let chat
 
-const useCustomerField = (fieldId, value, submittedTime) => {
+const useCustomerField = (fieldId, value, submittedTime, chatLoaded) => {
   useEffect(() => {
-    chat.setChatRegistrationField(
-      `schema.conversation.customer.${fieldId}`,
-      value
-    )
-  }, [value, fieldId, submittedTime])
+    if (chatLoaded) {
+      chat.setChatRegistrationField(
+        `schema.conversation.customer.${fieldId}`,
+        value
+      )
+    }
+  }, [value, fieldId, submittedTime, chatLoaded])
 }
 
 const WebChat = ({ firstName, lastName, phoneNumber, submittedTime }) => {
+  const [chatLoaded, setChatLoaded] = useState(false)
+
   useEffect(() => {
-    chat = window.Quiq({
-      contactPoint: "main",
-      colors: {
-        primary: "#5c2997",
-      },
-    })
+    const { tenant = "sfdc1-demo", cp = "main" } = queryString.parse(
+      window.location.search
+    )
+
+    const script = document.createElement("script")
+    script.onload = () => {
+      chat = window.Quiq({
+        contactPoint: cp,
+        colors: {
+          primary: "#5c2997",
+        },
+      })
+      setChatLoaded(true)
+    }
+    script.src = `https://${tenant}.quiq-api.com/app/webchat/index.js`
+    document.head.appendChild(script)
   }, [])
 
-  useCustomerField("firstName", firstName, submittedTime)
-  useCustomerField("lastName", lastName, submittedTime)
-  useCustomerField("phoneNumber", phoneNumber, submittedTime)
+  useCustomerField("firstName", firstName, submittedTime, chatLoaded)
+  useCustomerField("lastName", lastName, submittedTime, chatLoaded)
+  useCustomerField("phoneNumber", phoneNumber, submittedTime, chatLoaded)
 
   return null
 }
