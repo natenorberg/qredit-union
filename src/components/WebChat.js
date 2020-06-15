@@ -41,7 +41,8 @@ const WebChat = ({ firstName, lastName, phoneNumber, submittedTime }) => {
       setChatLoaded(true)
     }
     script.src = `https://${tenant}.quiq-api.com/app/webchat/index.js`
-    document.head.appendChild(script)
+    script.defer = true
+    document.body.appendChild(script)
   }, [])
 
   useCustomerField("firstName", firstName, submittedTime, chatLoaded)
