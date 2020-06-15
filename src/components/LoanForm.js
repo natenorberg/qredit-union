@@ -284,12 +284,12 @@ const LoanForm = () => {
   return (
     <ContentBox>
       {content}
-      <WebChat
+      {/* <WebChat
         firstName={firstName}
         lastName={lastName}
         phoneNumber={phoneNumber}
         submittedTime={submittedTime}
-      />
+      /> */}
     </ContentBox>
   )
 }
