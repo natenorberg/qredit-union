@@ -26,15 +26,44 @@ const WebChat = ({ firstName, lastName, phoneNumber, submittedTime }) => {
     script.onload = () => {
       chat = window.Quiq({
         contactPoint: cp,
-        colors: {
-          primary: "#5c2997",
+        context: {
+          intent: "testing",
+          data: {
+            favoriteColor: "green",
+          },
+        },
+        position: {
+          right: 24,
+          top: 135,
         },
         styles: {
-          InitialMessageContainer: {
-            display: "none",
+          HeaderBanner: {
+            // Color for the header text
+            color: "#000",
           },
-          AgentDisplayName: {
-            display: "none",
+          HeaderMenuIcons: {
+            // Color for the buttons at the top of the chat window
+            // This color is just black at half-opacity so the icons would be clearly
+            // visible, but also less prominent than the header text by it
+            fill: "rgba(0,0,0,0.5)",
+          },
+          ToggleChatButton: {
+            // This is different than the usual yellow color, but to my eye it matches better
+            // backgroundColor: "#fae100",
+            backgroundColor: "#0073e6",
+            // This makes the button shadow sharper
+            // The default shadow makes the button look a little blurry to me when it's yellow
+            boxShadow: "rgba(0,0,0,0.3) 0px 1px 2px",
+            top: 60,
+          },
+          // ToggleChatButtonIcon: {
+          //   color: "#000",
+          // },
+          // ToggleChatButton: {
+          //   backgroundColor: "#0073e6",
+          // },
+          InlineActionButton: {
+            color: "#000",
           },
         },
       })
