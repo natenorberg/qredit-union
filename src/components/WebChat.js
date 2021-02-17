@@ -26,6 +26,8 @@ const WebChat = ({ firstName, lastName, phoneNumber, submittedTime }) => {
     script.onload = () => {
       chat = window.Quiq({
         contactPoint: cp,
+        authentication: { inline: true },
+        // _bootloader: { cdn: "https://static.quiq-cdn.com" }, <-- Not the problem
         context: {
           intent: "testing",
           data: {
